@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="t d">
+  <title id="t">AI WORKS</title><desc id="d">Make AI work for Americans, not the other way around.</desc>
+  <rect width="1200" height="630" fill="#F7F8FA"/>
+  <rect x="64" y="62" width="1072" height="506" fill="#fff" stroke="#0E1218" stroke-width="3"/>
+  <rect x="64" y="62" width="1072" height="46" fill="#0E1218"/>
+  <text x="90" y="92" fill="#F7F8FA" font-family="monospace" font-size="16" letter-spacing="2">AI WORKS / PUBLIC-INTEREST INSTRUMENT</text>
+  <path d="M104 278 174 126h56l76 152h-60l-14-34h-67l-14 34h-47Z" fill="#0E1218"/>
+  <path d="m165 244 67-46-22-53-45 99Z" fill="#2A31D8"/>
+  <text x="332" y="269" fill="#0E1218" font-family="Arial, sans-serif" font-weight="800" font-size="118" letter-spacing="-6">AI WORKS</text>
+  <text x="103" y="385" fill="#171A6B" font-family="Arial, sans-serif" font-weight="700" font-size="48">Make AI work for Americans—</text>
+  <text x="103" y="447" fill="#2A31D8" font-family="Arial, sans-serif" font-weight="700" font-size="48">not the other way around.</text>
+  <line x1="103" y1="493" x2="1097" y2="493" stroke="#0E1218" stroke-width="2"/>
+  <text x="103" y="530" fill="#6B7684" font-family="monospace" font-size="18">PROTECT THE WORKER · VERIFY THE SKILL · PUBLISH THE RESULT</text>
+</svg>

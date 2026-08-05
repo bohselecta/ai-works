@@ -1,0 +1,11 @@
+{
+  "version": "0.2.0",
+  "jurisdiction": "United States",
+  "reviewed_at": "2026-08-05",
+  "record_files": [
+    "records.us.identity-travel.json",
+    "records.us.health-veterans.json",
+    "records.us.work-benefits-civic.json",
+    "records.us.state-life-safety.json"
+  ]
+}

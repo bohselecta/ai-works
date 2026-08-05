@@ -1,0 +1,12 @@
+{
+  "jurisdiction": "United States",
+  "organization": "AI WORKS public-interest project",
+  "initiative": {
+    "name": "AI WORKS Act",
+    "goal": "Make AI work for Americans—not the other way around."
+  },
+  "official_domain_policy": "Use U.S. federal government sites and official federal locators to state or local services.",
+  "languages": ["en", "es aliases in initial records"],
+  "record_file": "data/records.us.json",
+  "maintenance_owner": "Unassigned — appoint before production use"
+}

@@ -1,0 +1,12 @@
+{
+  "jurisdiction": "",
+  "organization": "",
+  "initiative": {
+    "name": "",
+    "goal": ""
+  },
+  "official_domain_policy": "",
+  "languages": [],
+  "record_file": "data/records.REPLACE.json",
+  "maintenance_owner": ""
+}

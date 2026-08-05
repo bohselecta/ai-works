@@ -1,0 +1,285 @@
+{
+  "records": [
+    {
+      "id": "state.birth-certificate",
+      "type": "handoff",
+      "name": "Get a birth certificate",
+      "aliases": [
+        "birth certificate copy",
+        "replace birth certificate",
+        "need my birth record",
+        "lost birth certificate",
+        "child birth certificate"
+      ],
+      "plain_summary": "Find the state office that gives copies of birth records.",
+      "agency": "USAGOV",
+      "agency_full": "USA.gov",
+      "authority": null,
+      "administration_level": "state",
+      "subtype": "federal_locator",
+      "federal_frame": "https://www.usa.gov/birth-certificate",
+      "jurisdiction_prompt": "In which state or territory did the birth occur?",
+      "varies_materially": true,
+      "disclosure": {
+        "destination_label": "www.usa.gov",
+        "operator": "USA.gov",
+        "why": "USA.gov links to official state and territory vital records offices.",
+        "official": true,
+        "free": false
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.usa.gov/birth-certificate",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "state.drivers-license",
+      "type": "handoff",
+      "name": "Renew or replace a driver license",
+      "aliases": [
+        "renew drivers license",
+        "lost driver license",
+        "replace license",
+        "dmv license",
+        "real id"
+      ],
+      "plain_summary": "Find the state office for a driver license or REAL ID.",
+      "agency": "USAGOV",
+      "agency_full": "USA.gov",
+      "authority": null,
+      "administration_level": "state",
+      "subtype": "federal_locator",
+      "federal_frame": "https://www.usa.gov/drivers-license-real-id",
+      "jurisdiction_prompt": "Which state or territory issued the license?",
+      "varies_materially": true,
+      "disclosure": {
+        "destination_label": "www.usa.gov",
+        "operator": "USA.gov",
+        "why": "USA.gov links to official state motor vehicle agencies.",
+        "official": true,
+        "free": false
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.usa.gov/drivers-license-real-id",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "hud.find-shelter",
+      "type": "service",
+      "name": "Find emergency housing and shelter help",
+      "aliases": [
+        "nowhere to sleep tonight",
+        "find a shelter",
+        "homeless help",
+        "emergency housing",
+        "need a place to stay"
+      ],
+      "plain_summary": "HUD lists shelters, food help, health care, and local support.",
+      "agency": "HUD",
+      "agency_full": "U.S. Department of Housing and Urban Development",
+      "authority": null,
+      "destination": "https://www.hud.gov/findshelter",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.hud.gov",
+        "operator": "U.S. Department of Housing and Urban Development",
+        "why": "HUD provides a federal tool for finding local shelter and support.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.hud.gov/findshelter",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "life.veteran-spouse-died",
+      "type": "journey",
+      "name": "Handle benefits after a veteran spouse dies",
+      "aliases": [
+        "my veteran husband died",
+        "my veteran wife died",
+        "veteran spouse death benefits",
+        "military spouse died",
+        "survivor help veteran"
+      ],
+      "plain_summary": "Several agencies may help after a veteran spouse dies. This guide shows a safe starting order.",
+      "agency": "MULTI",
+      "agency_full": "Several federal and state agencies",
+      "authority": null,
+      "trigger": "A spouse who served in the military has died",
+      "steps": [
+        {
+          "record_id": "state.birth-certificate",
+          "timing": "Use the state vital records office for needed family records",
+          "conditional_on": "Only if a birth record is needed"
+        },
+        {
+          "record_id": "ssa.survivor-benefits",
+          "timing": "As soon as you are able",
+          "conditional_on": null
+        },
+        {
+          "record_id": "va.survivor-dic",
+          "timing": "Review the VA claim steps",
+          "conditional_on": null
+        },
+        {
+          "record_id": "va.burial-benefits",
+          "timing": "Some burial claims have time limits",
+          "conditional_on": null
+        }
+      ],
+      "not_exhaustive_notice": "This is not a complete list. Life insurance, pensions, TRICARE, and state programs may also matter.",
+      "disclosure": {
+        "destination_label": "multiple official sites",
+        "operator": "several federal and state agencies",
+        "why": "Survivor support is split across agencies; no single office handles all steps.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 90,
+        "last_human_review": "2026-08-05"
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "crisis.988",
+      "type": "escalation",
+      "name": "988 Suicide & Crisis Lifeline",
+      "aliases": [
+        "suicide crisis",
+        "want to die",
+        "kill myself",
+        "emotional crisis",
+        "need crisis help"
+      ],
+      "plain_summary": "Call or text 988 for crisis support in the United States.",
+      "agency": "988",
+      "agency_full": "988 Suicide & Crisis Lifeline",
+      "authority": null,
+      "match": {
+        "patterns": [
+          "kill myself",
+          "suicide",
+          "want to die",
+          "dont want to live",
+          "don't want to live",
+          "end my life",
+          "not be here anymore",
+          "cant go on",
+          "can't go on"
+        ]
+      },
+      "channel": "phone",
+      "contact": "988",
+      "hours": "24/7",
+      "render_before_anything_else": true,
+      "disclosure": {
+        "destination_label": "988",
+        "operator": "988 Suicide & Crisis Lifeline",
+        "why": "Call or text 988 for crisis support in the United States.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 365,
+        "last_human_review": "2026-08-05"
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "emergency.911",
+      "type": "escalation",
+      "name": "Emergency services",
+      "aliases": [
+        "call police now",
+        "medical emergency",
+        "house on fire",
+        "child missing",
+        "someone is attacking me"
+      ],
+      "plain_summary": "Call 911 for an immediate threat to life or safety in the United States.",
+      "agency": "911",
+      "agency_full": "Local emergency services",
+      "authority": null,
+      "match": {
+        "patterns": [
+          "child is missing",
+          "my child is missing",
+          "house is on fire",
+          "someone is attacking me",
+          "cant breathe",
+          "can't breathe",
+          "overdose",
+          "gunshot",
+          "immediate danger"
+        ]
+      },
+      "channel": "phone",
+      "contact": "911",
+      "hours": "24/7",
+      "render_before_anything_else": true,
+      "disclosure": {
+        "destination_label": "911",
+        "operator": "local emergency services",
+        "why": "Call 911 for an immediate threat to life or safety.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 365,
+        "last_human_review": "2026-08-05"
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    }
+  ]
+}

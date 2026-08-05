@@ -1,0 +1,347 @@
+{
+  "records": [
+    {
+      "id": "cms.medicare-enroll",
+      "type": "service",
+      "name": "Sign up for Medicare",
+      "aliases": [
+        "sign up for medicare",
+        "enroll in medicare",
+        "medicare application",
+        "turning 65 medicare",
+        "get medicare"
+      ],
+      "plain_summary": "Medicare explains when and how to sign up.",
+      "agency": "CMS",
+      "agency_full": "Centers for Medicare & Medicaid Services",
+      "authority": null,
+      "destination": "https://www.medicare.gov/basics/get-started-with-medicare/sign-up",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free to apply",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.medicare.gov",
+        "operator": "Centers for Medicare & Medicaid Services",
+        "why": "Medicare provides official sign-up steps and timing.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.medicare.gov/basics/get-started-with-medicare/sign-up",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "cms.extra-help",
+      "type": "service",
+      "name": "Apply for Medicare Part D Extra Help",
+      "aliases": [
+        "help paying for medications",
+        "medicare prescription help",
+        "part d extra help",
+        "low income subsidy",
+        "drug cost help"
+      ],
+      "plain_summary": "Ask for help with the cost of Medicare drug coverage.",
+      "agency": "SSA",
+      "agency_full": "Social Security Administration",
+      "authority": null,
+      "destination": "https://www.ssa.gov/medicare/part-d-extra-help",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free to apply",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.ssa.gov",
+        "operator": "Social Security Administration",
+        "why": "Social Security takes applications for the Medicare Part D Extra Help program.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.ssa.gov/medicare/part-d-extra-help",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "hhs.medicaid-state",
+      "type": "handoff",
+      "name": "Find Medicaid or CHIP help in a state",
+      "aliases": [
+        "apply for medicaid",
+        "medicaid office",
+        "chip for kids",
+        "state health coverage",
+        "low income health insurance"
+      ],
+      "plain_summary": "Medicaid and CHIP are run by states. The federal site lists state contacts.",
+      "agency": "CMS",
+      "agency_full": "Centers for Medicare & Medicaid Services",
+      "authority": null,
+      "administration_level": "state",
+      "subtype": "federal_locator",
+      "federal_frame": "https://www.medicaid.gov/about-us/where-can-people-get-help-medicaid-chip/index.html",
+      "jurisdiction_prompt": "What state or territory do you live in?",
+      "varies_materially": true,
+      "disclosure": {
+        "destination_label": "www.medicaid.gov",
+        "operator": "Centers for Medicare & Medicaid Services",
+        "why": "The federal Medicaid site lists official state contacts.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.medicaid.gov/about-us/where-can-people-get-help-medicaid-chip/index.html",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "va.disability-claim",
+      "type": "service",
+      "name": "File a VA disability claim",
+      "aliases": [
+        "apply for va disability",
+        "veteran disability claim",
+        "service connected disability",
+        "file va claim",
+        "va compensation"
+      ],
+      "plain_summary": "Learn how to file a claim for a service-linked health problem.",
+      "agency": "VA",
+      "agency_full": "U.S. Department of Veterans Affairs",
+      "authority": null,
+      "destination": "https://www.va.gov/disability/how-to-file-claim/",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.va.gov",
+        "operator": "U.S. Department of Veterans Affairs",
+        "why": "VA handles disability compensation claims for veterans.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.va.gov/disability/how-to-file-claim/",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "va.survivor-dic",
+      "type": "service",
+      "name": "Apply for VA survivor compensation",
+      "aliases": [
+        "veteran spouse died benefits",
+        "dic benefits",
+        "survivor compensation va",
+        "va death benefit",
+        "veteran widow benefit"
+      ],
+      "plain_summary": "Learn about a VA payment for some family members after a death.",
+      "agency": "VA",
+      "agency_full": "U.S. Department of Veterans Affairs",
+      "authority": null,
+      "destination": "https://www.va.gov/family-and-caregiver-benefits/survivor-compensation/",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.va.gov",
+        "operator": "U.S. Department of Veterans Affairs",
+        "why": "VA handles Dependency and Indemnity Compensation claims.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.va.gov/family-and-caregiver-benefits/survivor-compensation/",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "va.burial-benefits",
+      "type": "service",
+      "name": "Apply for VA burial benefits",
+      "aliases": [
+        "veteran burial benefit",
+        "va funeral help",
+        "burial allowance veteran",
+        "veteran died funeral",
+        "military burial money"
+      ],
+      "plain_summary": "Learn about VA help with some burial and funeral costs.",
+      "agency": "VA",
+      "agency_full": "U.S. Department of Veterans Affairs",
+      "authority": null,
+      "destination": "https://www.va.gov/burials-memorials/veterans-burial-allowance/",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.va.gov",
+        "operator": "U.S. Department of Veterans Affairs",
+        "why": "VA handles federal burial allowance claims for veterans.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.va.gov/burials-memorials/veterans-burial-allowance/",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "ssa.survivor-benefits",
+      "type": "service",
+      "name": "Learn about Social Security survivor benefits",
+      "aliases": [
+        "social security death benefit",
+        "husband died social security",
+        "widow benefits",
+        "survivor benefits ssa",
+        "parent died benefits"
+      ],
+      "plain_summary": "Learn about payments after a death.",
+      "agency": "SSA",
+      "agency_full": "Social Security Administration",
+      "authority": null,
+      "destination": "https://www.ssa.gov/survivor",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.ssa.gov",
+        "operator": "Social Security Administration",
+        "why": "Social Security handles federal survivor benefit claims.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.ssa.gov/survivor",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "dod.tricare",
+      "type": "service",
+      "name": "Find health coverage for active-duty families",
+      "aliases": [
+        "active duty healthcare",
+        "military family health insurance",
+        "tricare",
+        "healthcare while serving",
+        "army family doctor"
+      ],
+      "plain_summary": "TRICARE explains health plans for service members and their families.",
+      "agency": "DOD",
+      "agency_full": "TRICARE",
+      "authority": null,
+      "destination": "https://www.tricare.mil/Plans/Eligibility/ADSMandFamilies",
+      "channels": [
+        "online"
+      ],
+      "cost": "Costs vary",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.tricare.mil",
+        "operator": "TRICARE",
+        "why": "TRICARE manages health coverage for active-duty service members and families.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.tricare.mil/Plans/Eligibility/ADSMandFamilies",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    }
+  ]
+}

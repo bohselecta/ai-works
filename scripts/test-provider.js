@@ -43,10 +43,17 @@ async function main() {
     assert.equal(config.model, 'gpt-5-nano-2025-08-07');
     assert.equal(config.baseUrl, 'https://api.openai.com/v1');
 
-    assert.throws(
-      () => providerConfig({ LLM_PROVIDER: 'siliconflow', LLM_API_KEY: 'test' }),
-      (error) => error.code === 'UNSUPPORTED_PROVIDER',
-    );
+    const staleLegacy = providerConfig({
+      LLM_PROVIDER: 'siliconflow',
+      LLM_API_KEY: 'legacy-secret',
+      LLM_BASE_URL: 'https://api.siliconflow.com/v1',
+      LLM_MODEL: 'legacy-model',
+    });
+    assert.equal(staleLegacy.provider, 'openai');
+    assert.equal(staleLegacy.apiKey, '');
+    assert.equal(staleLegacy.baseUrl, 'https://api.openai.com/v1');
+    assert.equal(staleLegacy.model, 'gpt-5-nano-2025-08-07');
+    assert.deepEqual(staleLegacy.ignoredLegacyKeys.sort(), ['LLM_API_KEY', 'LLM_BASE_URL', 'LLM_MODEL', 'LLM_PROVIDER'].sort());
     assert.throws(
       () => providerConfig({ OPENAI_API_KEY: 'test', OPENAI_BASE_URL: 'https://example.com/v1' }),
       (error) => error.code === 'UNSUPPORTED_ENDPOINT',

@@ -50,8 +50,9 @@ For an organization, identify:
 8. Add deterministic escalation patterns before any model call.
 9. Run the linter.
 10. Build an evaluation set weighted toward confusable, out-of-scope, vernacular, and escalation cases.
-11. Run at least two models and publish the receipts.
-12. Do not call the result production-ready until human reviewers accept the records and gates.
+11. Select a provider and processing-region policy appropriate to the adopter, then pin one evaluated model snapshot.
+12. Compare model snapshots when useful, but publish receipts and deploy only the approved pinned configuration.
+13. Do not call the result production-ready until human reviewers accept the records and gates.
 
 ## Rebrand safely
 
@@ -75,8 +76,12 @@ The interface must say:
 - that it is or is not an official service;
 - what the model may and may not do;
 - whether requests are stored;
-- which model provider receives the text;
+- which model provider receives the text, who owns it, where processing occurs, and what retention applies;
 - when each result was last reviewed;
 - why the linked destination is relevant;
 - that the directory is incomplete;
 - how to report an incorrect or unsafe route.
+
+## Canonical repository boundary
+
+The canonical AI WORKS repository is permanently OpenAI-only. A fork may choose differently under the Unlicense, but provider changes for a fork must be documented in that fork and must not be submitted back as generic provider adapters for AI WORKS.

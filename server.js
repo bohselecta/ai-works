@@ -5,55 +5,82 @@ const fs = require('fs');
 const path = require('path');
 const { routeQuery } = require('./lib/route-handler');
 
-loadEnv(path.join(__dirname, '.env.local'));
-loadEnv(path.join(__dirname, '.env'));
+loadEnv(path.join(process.cwd(), '.env.local'));
+loadEnv(path.join(process.cwd(), '.env'));
 
-const port = Number(process.env.PORT || 8080);
-const root = __dirname;
-const mime = {
-  '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
-  '.json': 'application/json; charset=utf-8', '.md': 'text/markdown; charset=utf-8', '.svg': 'image/svg+xml',
+const TYPES = {
+  '.html': 'text/html; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
+  '.js': 'application/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.svg': 'image/svg+xml',
+  '.md': 'text/markdown; charset=utf-8',
 };
 
-http.createServer(async (req, res) => {
-  if (req.url === '/api/route' && req.method === 'POST') {
-    let body = '';
-    req.on('data', (chunk) => { if (body.length < 25000) body += chunk; });
-    req.on('end', async () => {
-      let payload = {};
-      try { payload = JSON.parse(body); } catch {}
+const server = http.createServer(async (req, res) => {
+  const url = new URL(req.url, `http://${req.headers.host}`);
+
+  if (req.method === 'POST' && url.pathname === '/api/route') {
+    try {
+      const body = await readBody(req, 12_000);
+      const payload = JSON.parse(body || '{}');
       const result = await routeQuery(payload.query);
-      const status = result.status === 'invalid' ? 400 : result.status === 'unavailable' ? 503 : 200;
-      res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
-      res.end(JSON.stringify(result));
-    });
+      sendJson(res, 200, result);
+    } catch (error) {
+      sendJson(res, error.code === 'BODY_TOO_LARGE' ? 413 : 400, { status: 'invalid', message: 'The request could not be read.' });
+    }
     return;
   }
 
-  const requestPath = decodeURIComponent((req.url || '/').split('?')[0]);
-  const filePath = requestPath === '/' ? path.join(root, 'index.html') : path.join(root, requestPath.replace(/^\//, ''));
-  if (!filePath.startsWith(root)) return send(res, 403, 'Forbidden');
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    res.writeHead(405); res.end('Method not allowed'); return;
+  }
 
-  fs.stat(filePath, (error, stat) => {
-    if (error || !stat.isFile()) return send(res, 404, 'Not found');
-    res.writeHead(200, { 'Content-Type': mime[path.extname(filePath)] || 'application/octet-stream' });
-    fs.createReadStream(filePath).pipe(res);
-  });
-}).listen(port, () => {
-  console.log(`AI WORKS running at http://localhost:${port}`);
-  console.log(`Router provider: ${process.env.LLM_PROVIDER || 'siliconflow'} / ${process.env.LLM_MODEL || 'Qwen/Qwen3.5-9B'}`);
+  let relative = decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname);
+  relative = relative.replace(/^\/+/, '');
+  const root = process.cwd();
+  const target = path.resolve(root, relative);
+  if (!target.startsWith(root) || !fs.existsSync(target) || fs.statSync(target).isDirectory()) {
+    res.writeHead(404); res.end('Not found'); return;
+  }
+  res.writeHead(200, { 'Content-Type': TYPES[path.extname(target)] || 'application/octet-stream' });
+  if (req.method === 'HEAD') { res.end(); return; }
+  fs.createReadStream(target).pipe(res);
 });
 
-function send(res, status, text) {
-  res.writeHead(status, { 'Content-Type': 'text/plain; charset=utf-8' });
-  res.end(text);
-}
+const port = Number(process.env.PORT || 8080);
+server.listen(port, () => {
+  console.log(`AI WORKS running at http://localhost:${port}`);
+  console.log(`Router provider: OpenAI / ${process.env.OPENAI_MODEL || process.env.LLM_MODEL || 'gpt-5-nano-2025-08-07'}`);
+});
 
 function loadEnv(file) {
   if (!fs.existsSync(file)) return;
   for (const line of fs.readFileSync(file, 'utf8').split(/\r?\n/)) {
-    if (!line || line.trim().startsWith('#') || !line.includes('=')) continue;
-    const [key, ...rest] = line.split('=');
-    if (!(key.trim() in process.env)) process.env[key.trim()] = rest.join('=').trim().replace(/^['"]|['"]$/g, '');
+    const clean = line.trim();
+    if (!clean || clean.startsWith('#')) continue;
+    const index = clean.indexOf('=');
+    if (index < 1) continue;
+    const key = clean.slice(0, index).trim();
+    const value = clean.slice(index + 1).trim().replace(/^['"]|['"]$/g, '');
+    if (!(key in process.env)) process.env[key] = value;
   }
+}
+
+function readBody(req, limit) {
+  return new Promise((resolve, reject) => {
+    let size = 0; let body = '';
+    req.on('data', (chunk) => {
+      size += chunk.length;
+      if (size > limit) { const error = new Error('too large'); error.code = 'BODY_TOO_LARGE'; reject(error); req.destroy(); return; }
+      body += chunk;
+    });
+    req.on('end', () => resolve(body));
+    req.on('error', reject);
+  });
+}
+
+function sendJson(res, status, payload) {
+  res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
+  res.end(JSON.stringify(payload));
 }

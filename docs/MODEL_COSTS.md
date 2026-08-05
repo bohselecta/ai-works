@@ -1,56 +1,79 @@
-# Model cost notes
+# OpenAI model and cost policy
 
-Checked **August 5, 2026** against provider documentation and pricing pages. Prices change; verify before budgeting.
+Checked **August 5, 2026** against official OpenAI documentation. Prices and product eligibility can change; verify before budgeting or changing a pinned model.
 
-## Recommended default: SiliconFlow
+## Permanent provider decision
 
-The router uses an OpenAI-compatible chat-completions request and sends only the user's short request plus the six retrieved candidate records. The model returns a small JSON object selecting one record or abstaining.
-
-Suggested deployment configuration:
+The canonical AI WORKS deployment uses the **OpenAI API only**. The default model is pinned rather than aliased:
 
 ```env
-LLM_PROVIDER=siliconflow
-LLM_API_KEY=your-key
-LLM_MODEL=Qwen/Qwen3.5-9B
-LLM_BASE_URL=https://api.siliconflow.com/v1
+OPENAI_API_KEY=your-key
+OPENAI_MODEL=gpt-5-nano-2025-08-07
+OPENAI_BASE_URL=https://api.openai.com/v1
 ```
 
-SiliconFlow currently lists `Qwen/Qwen3.5-9B` at:
-
-- **$0.10 per million input tokens**
-- **$0.15 per million output tokens**
-
-A normal router request is expected to use approximately **700–1,200 input tokens** and fewer than **100 output tokens**. At the listed rate, that is approximately **$0.000085–$0.000135 per route**, or roughly **$0.09–$0.14 per 1,000 routes**, before retries, provider changes, or unusually long inputs. This is an engineering estimate, not a billing guarantee.
-
-## fal / OpenRouter
-
-fal exposes an OpenAI-compatible LLM endpoint through OpenRouter:
+For an OpenAI project approved for U.S. data residency:
 
 ```env
-LLM_PROVIDER=fal
-LLM_API_KEY=your-key
-LLM_MODEL=google/gemini-2.5-flash
-LLM_BASE_URL=https://fal.run/openrouter/router/openai/v1
+OPENAI_BASE_URL=https://us.api.openai.com/v1
 ```
 
-The exact cost follows the selected OpenRouter model and can change independently. Consult fal and OpenRouter pricing before deployment.
+See [`PROVIDER_POLICY.md`](PROVIDER_POLICY.md).
 
-## Cost controls already in the application
+## Current rate used for estimates
+
+OpenAI lists GPT-5 nano at:
+
+- **$0.05 per million input tokens**
+- **$0.40 per million output tokens**
+
+The router sends a short request plus at most six locally retrieved candidate records. The model returns only a constrained JSON choice or abstention. The request uses minimal reasoning, low verbosity, and a hard completion ceiling of 200 tokens.
+
+### Conservative request estimate
+
+Assuming **700–1,200 input tokens** and the full **200-token completion ceiling**:
+
+| Volume | Estimated model cost |
+|---:|---:|
+| One route | $0.000115–$0.000140 |
+| 1,000 routes | $0.12–$0.14 |
+| 100,000 routes | $11.50–$14.00 |
+| 1,000,000 routes | $115–$140 |
+
+Most valid responses should use fewer than 200 completion tokens, so observed cost may be lower. Reasoning tokens count toward model output usage. This estimate excludes retries, hosting, monitoring, taxes, future price changes, and traffic abuse.
+
+## Cost controls in the application
 
 - deterministic emergency routing occurs before any model call;
-- only six locally retrieved candidates are sent to the model;
-- the model is limited to a small structured response;
+- only six locally retrieved candidates are sent to OpenAI;
+- structured output prevents prose generation;
+- reasoning effort is set to `minimal`;
+- output is capped;
 - input length is capped server-side;
-- the Vercel endpoint includes a best-effort request-rate limit; and
-- a model failure produces abstention rather than a retry loop or improvised answer.
+- the endpoint includes a best-effort request-rate limit; and
+- a provider failure produces abstention rather than a retry loop or improvised answer.
 
-## Security
+## Data handling
 
-Never place the provider key in browser code or commit it to GitHub. Add it as a Vercel project environment variable or keep it in an ignored local `.env.local` file.
+The browser never receives the API key. The project does not create accounts or intentionally persist routing requests.
+
+OpenAI states that API data is not used to train its models unless the customer opts in. Standard Chat Completions may retain abuse-monitoring logs for up to 30 days. Eligible organizations can pursue Zero Data Retention or Modified Abuse Monitoring controls. OpenAI's U.S. regional endpoint supports regional storage and processing for supported services and models.
+
+Do not ask users to submit Social Security numbers, passwords, case numbers, medical records, or other sensitive identifiers.
+
+## Model-change rule
+
+The provider is permanent. The model is pinned but replaceable after evidence.
+
+Before changing `OPENAI_MODEL` in the canonical deployment:
+
+1. run the adversarial evaluation;
+2. compare the proposed OpenAI snapshot against the current snapshot;
+3. publish accuracy, confident-wrong, correct-abstention, escalation, latency, and cost receipts;
+4. update this file and the provider-policy decision; and
+5. obtain project-owner approval.
 
 ## Official references
 
-- SiliconFlow API: <https://docs.siliconflow.com/en/api-reference/chat-completions/chat-completions>
-- SiliconFlow pricing and model catalog: <https://siliconflow.com/pricing>
-- fal OpenRouter endpoint: <https://fal.ai/models/openrouter/router/openai/api>
-- fal pricing: <https://docs.fal.ai/model-apis/model-endpoints/pricing>
+- OpenAI GPT-5 developer announcement and pricing: <https://openai.com/index/introducing-gpt-5-for-developers/>
+- OpenAI API data controls and regional processing: <https://developers.openai.com/api/docs/guides/your-data>

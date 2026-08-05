@@ -9,6 +9,17 @@ This repository contains two connected public-interest artifacts:
 
 The router is deliberately a secondary demonstration, not the main initiative. It shows the governing idea in working software: use AI to narrow a public problem, disclose the source, preserve human control, and abstain rather than guess.
 
+## Permanent provider decision
+
+The canonical AI WORKS project uses the **OpenAI API only**.
+
+- Default model: `gpt-5-nano-2025-08-07`
+- Standard endpoint: `https://api.openai.com/v1`
+- Preferred endpoint for an eligible U.S. data-residency project: `https://us.api.openai.com/v1`
+- Non-OpenAI providers and arbitrary compatible endpoints are rejected in code.
+
+Cost comparisons were useful during design. The final provider decision reflects the project's U.S. public-interest identity and is documented in [`docs/PROVIDER_POLICY.md`](docs/PROVIDER_POLICY.md). Model snapshots may be upgraded only after the routing evaluations pass and the project owner approves the change.
+
 ## Router safety model
 
 The application does **not** ask a model to answer a government question.
@@ -20,12 +31,12 @@ deterministic emergency check
     ↓
 lexical retrieval of reviewed records
     ↓
-model verifies one candidate OR abstains
+OpenAI verifies one candidate OR abstains
     ↓
 site renders a human-authored record verbatim
 ```
 
-The model cannot create a URL, decide eligibility, write agency guidance, or silently route an emergency. See [`docs/PORTAL_ARCHITECTURE.md`](docs/PORTAL_ARCHITECTURE.md). Current provider-rate notes and a request-cost estimate are in [`docs/MODEL_COSTS.md`](docs/MODEL_COSTS.md).
+The model cannot create a URL, decide eligibility, write agency guidance, or silently route an emergency. See [`docs/PORTAL_ARCHITECTURE.md`](docs/PORTAL_ARCHITECTURE.md). Current rate notes and bounded request-cost estimates are in [`docs/MODEL_COSTS.md`](docs/MODEL_COSTS.md).
 
 ## Run locally
 
@@ -33,45 +44,33 @@ Requires Node.js 20+ and Python 3 for the record linter.
 
 ```bash
 cp .env.example .env.local
-# Add a cloud key, or switch the file to Ollama.
+# Add your OpenAI API key to .env.local.
 npm run dev
 ```
 
 Open `http://localhost:8080`.
 
-### SiliconFlow
+### Environment
 
 ```env
-LLM_PROVIDER=siliconflow
-LLM_API_KEY=your-key
-LLM_MODEL=Qwen/Qwen3.5-9B
-LLM_BASE_URL=https://api.siliconflow.com/v1
+OPENAI_API_KEY=your-key
+OPENAI_MODEL=gpt-5-nano-2025-08-07
+OPENAI_BASE_URL=https://api.openai.com/v1
+ROUTER_CONFIDENCE=0.78
 ```
 
-### fal
-
-fal exposes an OpenAI-compatible LLM route through OpenRouter.
+An organization approved for OpenAI U.S. data residency should use:
 
 ```env
-LLM_PROVIDER=fal
-LLM_API_KEY=your-key
-LLM_MODEL=google/gemini-2.5-flash
-LLM_BASE_URL=https://fal.run/openrouter/router/openai/v1
-```
-
-### Ollama for local development
-
-```env
-LLM_PROVIDER=ollama
-LLM_MODEL=qwen3:4b
-LLM_BASE_URL=http://127.0.0.1:11434
+OPENAI_BASE_URL=https://us.api.openai.com/v1
 ```
 
 ## Deploy to Vercel
 
 1. Import this repository into Vercel.
-2. Add `LLM_PROVIDER`, `LLM_API_KEY`, `LLM_MODEL`, and `LLM_BASE_URL` as project environment variables.
-3. Deploy from the repository root. No build command is required.
+2. Add `OPENAI_API_KEY` as a project environment variable.
+3. Optionally add the pinned `OPENAI_MODEL` and approved `OPENAI_BASE_URL` values.
+4. Deploy from the repository root. No build command is required.
 
 The static site is served normally, while `api/route.js` runs as a serverless function. Never place an API key in browser JavaScript.
 
@@ -81,13 +80,13 @@ The static site is served normally, while `api/route.js` runs as a serverless fu
 npm test
 ```
 
-This runs the router unit tests and the record linter. The linter turns the project doctrine into build failures: asserted freshness, eligibility language, unresolved journeys, weak escalation handling, and hard-to-read summaries all fail.
+This runs router tests, the OpenAI provider-policy test, the mocked OpenAI integration test, and the record linter. The linter turns project doctrine into build failures: asserted freshness, eligibility language, unresolved journeys, weak escalation handling, and hard-to-read summaries all fail.
 
-To run the local-model probe:
+To run the OpenAI evaluation probe against the adversarial seed:
 
 ```bash
+export OPENAI_API_KEY=your-key
 python3 portal/probe.py \
-  --model qwen3:4b \
   --records data/records.us.json \
   --eval portal/eval-seed.json
 ```
@@ -105,6 +104,8 @@ The U.S. deployment remains AI WORKS. A fork begins with a blank initiative and 
 - Which official sources are in scope?
 - Who will maintain and review the records?
 
+A separate fork may make its own provider decision under the Unlicense. That does not add alternative providers to the canonical AI WORKS repository.
+
 ## Repository map
 
 ```text
@@ -112,17 +113,18 @@ index.html                         AI WORKS landing page + embedded router UI
 styles.css / script.js             design system and client behavior
 api/route.js                       Vercel serverless endpoint
 lib/router.js                      retrieval, deterministic escalation, validation
-lib/provider.js                    SiliconFlow, fal, Ollama, generic adapters
+lib/provider.js                    OpenAI-only provider enforcement
 lib/route-handler.js               shared routing flow
 data/records.us.json               U.S. record manifest
 data/records.us.*.json             reviewed U.S. service record groups
 portal/schema.json                 record schema and doctrine
 portal/lint.py                     build-failing record linter
-portal/probe.py                    model evaluation harness
+portal/probe.py                    OpenAI model evaluation harness
 portal/eval-seed.json              adversarial seed set
 docs/PORTAL_ARCHITECTURE.md        safety and operating model
+docs/PROVIDER_POLICY.md            permanent OpenAI provider decision
 docs/ADAPTATION_GUIDE.md           fork workflow
-docs/MODEL_COSTS.md                provider pricing and route-cost estimate
+docs/MODEL_COSTS.md                OpenAI pricing and route-cost estimate
 AGENTS.md                          instructions for an AI coding agent
 UNLICENSE                          public-domain dedication
 ```

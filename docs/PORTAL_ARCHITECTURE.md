@@ -41,18 +41,22 @@ The uploaded schema established five core invariants. They remain canonical:
 
 ## Provider architecture
 
-The provider adapter supports:
+The canonical AI WORKS deployment uses one provider path:
 
-- **SiliconFlow** through `/v1/chat/completions` with Bearer authentication;
-- **fal** through its OpenRouter-backed OpenAI-compatible endpoint with Key authentication;
-- **Ollama** for local development;
-- any compatible endpoint through the generic adapter.
+- **OpenAI Chat Completions API**;
+- pinned default model **`gpt-5-nano-2025-08-07`**;
+- strict JSON Schema output;
+- minimal reasoning and low verbosity;
+- server-side key only;
+- standard OpenAI endpoint or the OpenAI U.S. regional endpoint.
 
-All keys stay server-side. The browser calls only `/api/route`.
+The provider module rejects non-OpenAI providers and arbitrary OpenAI-compatible endpoints. This is a permanent project decision documented in [`PROVIDER_POLICY.md`](PROVIDER_POLICY.md).
 
 ## Privacy
 
-The project does not create accounts or write routing requests to a database. The request is sent to the configured model provider for one constrained verification call. Hosting and provider logs may still exist and are governed by those services. Do not ask for Social Security numbers, case numbers, medical details, passwords, or other sensitive identifiers.
+The project does not create accounts or write routing requests to a database. The request is sent to OpenAI for one constrained verification call. Hosting and OpenAI logs may still exist and are governed by those services and the project's account controls. Do not ask for Social Security numbers, case numbers, medical details, passwords, or other sensitive identifiers.
+
+The preferred production posture is an eligible OpenAI U.S. data-residency project using `https://us.api.openai.com/v1`. Until that is available, using OpenAI's standard API establishes the U.S.-owned provider decision but should not be described as a guarantee of U.S.-only processing.
 
 ## Current record coverage
 
@@ -64,13 +68,13 @@ A production maintainer must add:
 - selector-scoped change fingerprints;
 - a human review queue;
 - a larger adversarial evaluation set;
-- provider and model comparison receipts;
+- OpenAI model-snapshot comparison receipts before upgrades;
 - accessibility and plain-language review;
 - clear ownership for every record.
 
 ## Evaluation gates
 
-The original probe defines the right priority order:
+The probe defines the right priority order:
 
 1. answerable top-1 accuracy;
 2. **confident-wrong rate**;

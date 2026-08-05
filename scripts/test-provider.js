@@ -1,40 +1,77 @@
 'use strict';
 
 const assert = require('assert');
-const http = require('http');
+const { callVerifier, providerConfig } = require('../lib/provider');
 const { routeQuery } = require('../lib/route-handler');
 
-const server = http.createServer((req, res) => {
-  let body = '';
-  req.on('data', (chunk) => { body += chunk; });
-  req.on('end', () => {
-    const payload = JSON.parse(body);
-    assert.equal(payload.model, 'test-router');
-    assert.equal(payload.messages[0].role, 'system');
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({
-      choices: [{ message: { content: JSON.stringify({ choice: 1, confidence: 0.96, reason: 'Exact refund task', clarifying_question: null }) } }],
-      usage: { prompt_tokens: 500, completion_tokens: 24, total_tokens: 524 },
-    }));
-  });
-});
+async function main() {
+  const originalFetch = global.fetch;
+  let requestSeen = false;
 
-server.listen(0, '127.0.0.1', async () => {
+  global.fetch = async (url, options) => {
+    requestSeen = true;
+    assert.equal(url, 'https://api.openai.com/v1/chat/completions');
+    assert.equal(options.headers.Authorization, 'Bearer test');
+
+    const payload = JSON.parse(options.body);
+    assert.equal(payload.model, 'gpt-5-nano-2025-08-07');
+    assert.equal(payload.messages[0].role, 'system');
+    assert.equal(payload.reasoning_effort, 'minimal');
+    assert.equal(payload.verbosity, 'low');
+    assert.equal(payload.max_completion_tokens, 200);
+    assert.equal(payload.response_format.type, 'json_schema');
+    assert.equal(payload.response_format.json_schema.strict, true);
+
+    return new Response(JSON.stringify({
+      choices: [{
+        message: {
+          content: JSON.stringify({
+            choice: 1,
+            confidence: 0.96,
+            reason: 'Exact refund task',
+            clarifying_question: null,
+          }),
+        },
+      }],
+      usage: { prompt_tokens: 500, completion_tokens: 24, total_tokens: 524 },
+    }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  };
+
   try {
-    const { port } = server.address();
+    const config = providerConfig({ OPENAI_API_KEY: 'test' });
+    assert.equal(config.provider, 'openai');
+    assert.equal(config.model, 'gpt-5-nano-2025-08-07');
+    assert.equal(config.baseUrl, 'https://api.openai.com/v1');
+
+    assert.throws(
+      () => providerConfig({ LLM_PROVIDER: 'siliconflow', LLM_API_KEY: 'test' }),
+      (error) => error.code === 'UNSUPPORTED_PROVIDER',
+    );
+    assert.throws(
+      () => providerConfig({ OPENAI_API_KEY: 'test', OPENAI_BASE_URL: 'https://example.com/v1' }),
+      (error) => error.code === 'UNSUPPORTED_ENDPOINT',
+    );
+
+    const direct = await callVerifier({ system: 'System', user: 'User' }, { OPENAI_API_KEY: 'test' });
+    assert.equal(direct.provider, 'openai');
+
     const result = await routeQuery('where is my tax refund', {
-      LLM_PROVIDER: 'openai-compatible',
-      LLM_API_KEY: 'test',
-      LLM_MODEL: 'test-router',
-      LLM_BASE_URL: `http://127.0.0.1:${port}/v1`,
-      LLM_AUTH_SCHEME: 'Bearer',
+      OPENAI_API_KEY: 'test',
       ROUTER_CONFIDENCE: '0.78',
     });
     assert.equal(result.status, 'match');
     assert.equal(result.record.id, 'irs.refund-status');
     assert.equal(result.architecture, 'retrieve-then-verify');
-    console.log('provider integration test passed');
+    assert.equal(result.model.provider, 'openai');
+    assert.equal(requestSeen, true);
+
+    console.log('OpenAI provider policy and integration tests passed');
   } finally {
-    server.close();
+    global.fetch = originalFetch;
   }
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

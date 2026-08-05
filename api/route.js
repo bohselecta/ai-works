@@ -33,9 +33,31 @@ module.exports = async function handler(req, res) {
   }
 
   const body = typeof req.body === 'string' ? safeJson(req.body) : (req.body || {});
-  const result = await routeQuery(body.query);
-  const httpStatus = result.status === 'invalid' ? 400 : result.status === 'unavailable' ? 503 : 200;
-  return res.status(httpStatus).json(result);
+  const requestId = req.headers['x-vercel-id'] || req.headers['x-request-id'] || 'unavailable';
+
+  try {
+    const result = await routeQuery(body.query);
+    const httpStatus = result.status === 'invalid' ? 400 : result.status === 'unavailable' ? 503 : 200;
+    console.log('[api/route] completed', {
+      requestId,
+      status: result.status,
+      httpStatus,
+      latencyMs: result.latency_ms || null,
+      model: result.model?.name || null,
+    });
+    return res.status(httpStatus).json(result);
+  } catch (error) {
+    console.error('[api/route] unhandled failure', {
+      requestId,
+      code: error.code || 'UNKNOWN',
+      message: error.message,
+      stack: error.stack,
+    });
+    return res.status(500).json({
+      status: 'unavailable',
+      message: 'The router encountered an internal error and did not select a destination.',
+    });
+  }
 };
 
 function safeJson(text) {

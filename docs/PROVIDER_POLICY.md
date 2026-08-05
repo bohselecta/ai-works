@@ -28,10 +28,9 @@ This is a provider decision, not a promise to freeze one model forever. The mode
 
 ## Enforcement
 
-`lib/provider.js` rejects:
+`lib/provider.js` reads only the canonical `OPENAI_*` variables. Legacy `LLM_PROVIDER`, `LLM_API_KEY`, `LLM_MODEL`, and `LLM_BASE_URL` values are ignored so stale settings from the earlier comparison phase cannot change or break production.
 
-- any `LLM_PROVIDER` value other than `openai`; and
-- any endpoint other than `api.openai.com` or `us.api.openai.com`.
+The provider module rejects any `OPENAI_BASE_URL` other than `api.openai.com` or `us.api.openai.com`.
 
 The provider-policy tests must remain in the default test suite.
 

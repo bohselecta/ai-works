@@ -40,7 +40,7 @@ The model cannot create a URL, decide eligibility, write agency guidance, or sil
 
 ## Run locally
 
-Requires Node.js 20+ and Python 3 for the record linter.
+Requires Node.js 24.x and Python 3 for the record linter.
 
 ```bash
 cp .env.example .env.local
@@ -70,7 +70,10 @@ OPENAI_BASE_URL=https://us.api.openai.com/v1
 1. Import this repository into Vercel.
 2. Add `OPENAI_API_KEY` as a project environment variable.
 3. Optionally add the pinned `OPENAI_MODEL` and approved `OPENAI_BASE_URL` values.
-4. Deploy from the repository root. No build command is required.
+4. Remove any old `LLM_PROVIDER`, `LLM_API_KEY`, `LLM_MODEL`, or `LLM_BASE_URL` variables left from earlier provider comparisons. The canonical app ignores them, but removing them prevents operator confusion.
+5. Deploy from the repository root. No build command is required.
+
+After deployment, open `/api/health`. It reports only non-secret readiness information: whether `OPENAI_API_KEY` is configured, the pinned model and endpoint, reviewed-record count, Node version, and deployed commit.
 
 The static site is served normally, while `api/route.js` runs as a serverless function. Never place an API key in browser JavaScript.
 
@@ -112,6 +115,7 @@ A separate fork may make its own provider decision under the Unlicense. That doe
 index.html                         AI WORKS landing page + embedded router UI
 styles.css / script.js             design system and client behavior
 api/route.js                       Vercel serverless endpoint
+api/health.js                      non-secret deployment readiness check
 lib/router.js                      retrieval, deterministic escalation, validation
 lib/provider.js                    OpenAI-only provider enforcement
 lib/route-handler.js               shared routing flow

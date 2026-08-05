@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "govroute/record-schema-0.1.0",
+  "title": "GovRoute Record Schema v0.1.0",
+
+  "_doctrine": [
+    "I1  No record may contain an eligibility determination. Records describe services, not users.",
+    "I2  No routing answer may be rendered without a resolvable record id. Enforced at query time.",
+    "I3  display_state is DERIVED from verification, never authored. A record cannot claim to be current.",
+    "I4  Escalation records are not retrievable by the routing model. Deterministic match only.",
+    "I5  Every destination change is a new revision with a changelog entry. Records are append-only."
+  ],
+
+  "$defs": {
+
+    "envelope": {
+      "type": "object",
+      "required": ["id","type","name","aliases","plain_summary","agency","verification","provenance"],
+      "properties": {
+        "id":   {"type":"string","pattern":"^[a-z0-9]+\\.[a-z0-9-]+$",
+                 "description":"namespaced and stable: ssa.card-replace. Never reused, never renamed."},
+        "type": {"enum":["service","handoff","journey","escalation"]},
+        "name": {"type":"string","maxLength":60,
+                 "description":"Imperative, plain. 'Replace a Social Security card' not 'Card Replacement Services'."},
+        "aliases": {"type":"array","minItems":3,"items":{"type":"string"},
+                 "description":"Vernacular. This is what retrieval actually keys on -- weight it heavily. Include misspellings, Spanish, and the phrasing people use when distressed."},
+        "plain_summary": {"type":"string","maxLength":180,
+                 "description":"<=25 words. Describes the SERVICE. Linted against eligibility language (I1) and reading level."},
+        "agency": {"type":"string"},
+        "agency_full": {"type":"string"},
+        "authority": {"type":["string","null"],
+                 "description":"USC or CFR citation. If present it is WATCHED via the Federal Register API -- amendment triggers review."},
+        "disclosure": {"$ref":"#/$defs/disclosure"},
+        "verification": {"$ref":"#/$defs/verification"},
+        "display_state": {"enum":["verified","drifted","stale","broken","retired"],
+                 "readOnly": true,
+                 "description":"DERIVED (I3). Authoring this field is a lint failure."},
+        "provenance": {
+          "type":"object",
+          "required":["authored_by","authored_at","revision"],
+          "properties":{
+            "authored_by":{"type":"string"},
+            "authored_at":{"type":"string","format":"date"},
+            "revision":{"type":"integer","minimum":1},
+            "changelog_ref":{"type":"string"}
+          }
+        }
+      }
+    },
+
+    "disclosure": {
+      "type":"object",
+      "description":"Renders the leaving-the-site interstitial. CURATED, never generated (I2). This text is your speech -- it is the single most legally load-bearing field in the schema.",
+      "required":["destination_label","operator","why"],
+      "properties":{
+        "destination_label":{"type":"string","description":"e.g. 'ssa.gov'"},
+        "operator":{"type":"string","description":"e.g. 'the Social Security Administration'"},
+        "why":{"type":"string","maxLength":140,
+               "description":"One sentence, factual, no determination. 'The SSA issues and replaces Social Security cards.' NOT 'you can replace yours online.'"},
+        "official":{"type":"boolean","default":true,
+               "description":"false for federally-mandated private destinations like annualcreditreport.com"},
+        "free":{"type":"boolean",
+               "description":"Whether the government service itself is free. Surfaced prominently -- this is the anti-fraud affordance."}
+      }
+    },
+
+    "verification": {
+      "type":"object",
+      "required":["review_window_days","last_human_review"],
+      "properties":{
+        "review_window_days":{"type":"integer","default":180},
+        "last_human_review":{"type":"string","format":"date"},
+        "liveness":{
+          "type":"object",
+          "properties":{
+            "url":{"type":"string"},
+            "expect_status":{"type":"integer","default":200},
+            "allow_redirect_to":{"type":"array","items":{"type":"string"},
+              "description":"Known-good redirect targets. Anything else = drift."},
+            "last_ok":{"type":"string","format":"date-time"}
+          }
+        },
+        "fingerprint":{
+          "type":"object",
+          "description":"Selector-scoped, NOT whole-page. Whole-page hashing false-positives on every nav change.",
+          "properties":{
+            "selector":{"type":"string","description":"CSS selector for the operative content region"},
+            "hash":{"type":"string"},
+            "drift_threshold":{"type":"number","default":0.15},
+            "last_checked":{"type":"string","format":"date-time"}
+          }
+        }
+      }
+    }
+  },
+
+  "oneOf": [
+
+    {
+      "title":"service",
+      "allOf":[{"$ref":"#/$defs/envelope"}],
+      "properties":{
+        "type":{"const":"service"},
+        "destination":{"type":"string","format":"uri"},
+        "channels":{"type":"array","items":{"enum":["online","mail","in_person","phone"]}},
+        "cost":{"type":["string","null"],"description":"Stated fact, e.g. '$130 as of 2026-08'. Dated, because fees change."},
+        "typical_duration":{"type":["string","null"]}
+      },
+      "required":["destination"]
+    },
+
+    {
+      "title":"handoff",
+      "description":"Federal frame, non-federal administration. The single most common structural case and the one most likely to be answered wrong by a naive router.",
+      "allOf":[{"$ref":"#/$defs/envelope"}],
+      "properties":{
+        "type":{"const":"handoff"},
+        "administration_level":{"enum":["state","county","municipal","tribal","private_mandated"]},
+        "subtype":{
+          "enum":["federal_locator","own_table"],
+          "description":"PREFER federal_locator. Route to the federal router that already maintains the 50-state table -- DOL for UI, FNS for SNAP, vote.gov for registration. Use own_table only where no federal locator exists; each jurisdiction row is a separate maintenance obligation."
+        },
+        "federal_frame":{"type":"string","format":"uri",
+          "description":"The federal page explaining the program. Always present -- this is what you route to under federal_locator."},
+        "jurisdiction_prompt":{"type":"string",
+          "description":"The question to ask, phrased exactly. Note the traps: unemployment keys on where you WORKED, not where you live. Medicaid keys on residence. Getting this wrong misroutes silently."},
+        "varies_materially":{"type":"boolean",
+          "description":"true if eligibility/benefit differs enough by jurisdiction that the federal frame alone would mislead. Forces the prompt before routing."},
+        "jurisdictions":{
+          "type":"object",
+          "description":"Only for subtype=own_table. Keyed by USPS state code. Each row carries its own verification.",
+          "additionalProperties":{
+            "type":"object",
+            "required":["name","url"],
+            "properties":{
+              "name":{"type":"string"},
+              "url":{"type":"string","format":"uri"},
+              "phone":{"type":["string","null"]},
+              "verification":{"$ref":"#/$defs/verification"}
+            }
+          }
+        }
+      },
+      "required":["administration_level","subtype","federal_frame","jurisdiction_prompt"]
+    },
+
+    {
+      "title":"journey",
+      "description":"Ordered cross-agency assembly for a life event. Exists because eval case B002 -- widow of a veteran -- has TWO correct answers and picking one is the failure.",
+      "allOf":[{"$ref":"#/$defs/envelope"}],
+      "properties":{
+        "type":{"const":"journey"},
+        "trigger":{"type":"string","description":"The life event, in the words people use."},
+        "steps":{
+          "type":"array","minItems":2,
+          "items":{
+            "type":"object",
+            "required":["record_id"],
+            "properties":{
+              "record_id":{"type":"string","description":"MUST resolve to an existing record (I2). No inline destinations."},
+              "timing":{"type":["string","null"],"description":"e.g. 'within 30 days'"},
+              "conditional_on":{"type":["string","null"],"description":"Plain-language condition. Descriptive, not a determination."}
+            }
+          }
+        },
+        "not_exhaustive_notice":{"type":"string",
+          "description":"REQUIRED. Every journey must state that it is not complete. A checklist that implies completeness is the one way this record type can hurt someone."}
+      },
+      "required":["trigger","steps","not_exhaustive_notice"]
+    },
+
+    {
+      "title":"escalation",
+      "description":"Not a website. NOT RETRIEVABLE BY THE ROUTING MODEL (I4) -- matched deterministically upstream, before the model ever sees the query.",
+      "allOf":[{"$ref":"#/$defs/envelope"}],
+      "properties":{
+        "type":{"const":"escalation"},
+        "match":{
+          "type":"object",
+          "required":["patterns"],
+          "properties":{
+            "patterns":{"type":"array","items":{"type":"string"},
+              "description":"Deterministic. Over-trigger on purpose -- a false positive costs one extra screen, a false negative is unacceptable."}
+          }
+        },
+        "channel":{"enum":["phone","text","chat","in_person"]},
+        "contact":{"type":"string","description":"The number or short code. Rendered as the primary element, not a link."},
+        "hours":{"type":"string","default":"24/7"},
+        "render_before_anything_else":{"const":true}
+      },
+      "required":["match","channel","contact"]
+    }
+  ]
+}

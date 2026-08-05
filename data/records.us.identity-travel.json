@@ -1,0 +1,523 @@
+{
+  "records": [
+    {
+      "id": "irs.refund-status",
+      "type": "service",
+      "name": "Check a federal tax refund",
+      "aliases": [
+        "where is my tax refund",
+        "refund status",
+        "wheres my refund",
+        "irs refund",
+        "tax refund late"
+      ],
+      "plain_summary": "The IRS tool shows the status of a federal income tax refund.",
+      "agency": "IRS",
+      "agency_full": "Internal Revenue Service",
+      "authority": null,
+      "destination": "https://www.irs.gov/refunds",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.irs.gov",
+        "operator": "Internal Revenue Service",
+        "why": "The IRS runs the federal tax refund status tool.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.irs.gov/refunds",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 2
+      }
+    },
+    {
+      "id": "state.passport-renew",
+      "type": "service",
+      "name": "Renew a U.S. passport",
+      "aliases": [
+        "renew my passport",
+        "passport renewal",
+        "expired passport",
+        "renovar pasaporte",
+        "passport ran out"
+      ],
+      "plain_summary": "The State Department explains how to renew a U.S. passport.",
+      "agency": "STATE",
+      "agency_full": "U.S. Department of State",
+      "authority": null,
+      "destination": "https://travel.state.gov/en/passports/renew-replace/mail.html",
+      "channels": [
+        "online"
+      ],
+      "cost": "Fees vary",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "travel.state.gov",
+        "operator": "U.S. Department of State",
+        "why": "The State Department issues and renews U.S. passports.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://travel.state.gov/en/passports/renew-replace/mail.html",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 2
+      }
+    },
+    {
+      "id": "state.passport-expedite",
+      "type": "service",
+      "name": "Get a U.S. passport faster",
+      "aliases": [
+        "passport fast",
+        "expedite passport",
+        "urgent passport",
+        "need passport soon",
+        "emergency passport"
+      ],
+      "plain_summary": "See official ways to get a passport sooner for urgent travel.",
+      "agency": "STATE",
+      "agency_full": "U.S. Department of State",
+      "authority": null,
+      "destination": "https://travel.state.gov/en/passports/apply/get-fast.html",
+      "channels": [
+        "online"
+      ],
+      "cost": "Fees vary",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "travel.state.gov",
+        "operator": "U.S. Department of State",
+        "why": "The State Department sets official passport service options and fees.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://travel.state.gov/en/passports/apply/get-fast.html",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 2
+      }
+    },
+    {
+      "id": "opm.usajobs",
+      "type": "service",
+      "name": "Find and apply for federal jobs",
+      "aliases": [
+        "federal job",
+        "government job",
+        "apply for a federal job",
+        "usajobs",
+        "work for the government"
+      ],
+      "plain_summary": "Search and apply for jobs with the U.S. government.",
+      "agency": "OPM",
+      "agency_full": "U.S. Office of Personnel Management",
+      "authority": null,
+      "destination": "https://www.usajobs.gov/",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.usajobs.gov",
+        "operator": "U.S. Office of Personnel Management",
+        "why": "USAJOBS is the federal government hiring site.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.usajobs.gov/",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "ssa.card-replace",
+      "type": "service",
+      "name": "Replace a Social Security card",
+      "aliases": [
+        "lost social security card",
+        "replace ss card",
+        "new social security card",
+        "ssn card replacement",
+        "tarjeta de seguro social"
+      ],
+      "plain_summary": "Learn how to get a new Social Security card.",
+      "agency": "SSA",
+      "agency_full": "Social Security Administration",
+      "authority": null,
+      "destination": "https://www.ssa.gov/number-card/replace-card",
+      "channels": [
+        "online",
+        "mail",
+        "in_person"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.ssa.gov",
+        "operator": "Social Security Administration",
+        "why": "Social Security issues and replaces Social Security cards.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.ssa.gov/number-card/replace-card",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "ssa.card-child",
+      "type": "service",
+      "name": "Get a Social Security number for a child",
+      "aliases": [
+        "ssn for my child",
+        "social security card for baby",
+        "get my kid a ssn",
+        "child social security number",
+        "newborn ssn"
+      ],
+      "plain_summary": "Social Security explains how to request a number and card for a child.",
+      "agency": "SSA",
+      "agency_full": "Social Security Administration",
+      "authority": null,
+      "destination": "https://www.ssa.gov/number-card/request-number-first-time",
+      "channels": [
+        "mail",
+        "in_person"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.ssa.gov",
+        "operator": "Social Security Administration",
+        "why": "Social Security issues Social Security numbers and cards.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.ssa.gov/number-card/request-number-first-time",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "ed.fafsa",
+      "type": "service",
+      "name": "Complete the FAFSA",
+      "aliases": [
+        "fill out fafsa",
+        "fafsa form",
+        "student aid application",
+        "college financial aid form",
+        "apply for federal student aid"
+      ],
+      "plain_summary": "The FAFSA form starts the federal student aid process.",
+      "agency": "ED",
+      "agency_full": "U.S. Department of Education",
+      "authority": null,
+      "destination": "https://studentaid.gov/h/apply-for-aid/fafsa",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "studentaid.gov",
+        "operator": "U.S. Department of Education",
+        "why": "Federal Student Aid operates the FAFSA form.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://studentaid.gov/h/apply-for-aid/fafsa",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "ed.student-loans",
+      "type": "service",
+      "name": "Learn about federal student loans",
+      "aliases": [
+        "apply for student loan",
+        "federal student loan",
+        "college loan",
+        "direct loan",
+        "student aid loan"
+      ],
+      "plain_summary": "Learn about loan types for school and how they work.",
+      "agency": "ED",
+      "agency_full": "U.S. Department of Education",
+      "authority": null,
+      "destination": "https://studentaid.gov/understand-aid/types/loans",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "studentaid.gov",
+        "operator": "U.S. Department of Education",
+        "why": "Federal Student Aid manages federal student loan information.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://studentaid.gov/understand-aid/types/loans",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "uscis.case-status",
+      "type": "service",
+      "name": "Check an immigration case status",
+      "aliases": [
+        "green card application status",
+        "uscis case status",
+        "immigration case status",
+        "check receipt number",
+        "case is pending"
+      ],
+      "plain_summary": "USCIS lets people check a case with a receipt number.",
+      "agency": "USCIS",
+      "agency_full": "U.S. Citizenship and Immigration Services",
+      "authority": null,
+      "destination": "https://egov.uscis.gov/",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "egov.uscis.gov",
+        "operator": "U.S. Citizenship and Immigration Services",
+        "why": "USCIS operates the official immigration case status tool.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://egov.uscis.gov/",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "uscis.n400",
+      "type": "service",
+      "name": "Apply for U.S. citizenship",
+      "aliases": [
+        "apply for citizenship",
+        "become a us citizen",
+        "naturalization application",
+        "n-400",
+        "citizenship form"
+      ],
+      "plain_summary": "Get the form and steps to ask for U.S. citizenship.",
+      "agency": "USCIS",
+      "agency_full": "U.S. Citizenship and Immigration Services",
+      "authority": null,
+      "destination": "https://www.uscis.gov/n-400",
+      "channels": [
+        "online"
+      ],
+      "cost": "Fees may apply",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.uscis.gov",
+        "operator": "U.S. Citizenship and Immigration Services",
+        "why": "USCIS handles naturalization applications.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.uscis.gov/n-400",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "uscis.i130",
+      "type": "service",
+      "name": "File a family immigration petition",
+      "aliases": [
+        "sponsor my wife for green card",
+        "sponsor my husband",
+        "family green card petition",
+        "i-130",
+        "petition for relative"
+      ],
+      "plain_summary": "Get the form used to ask for a family member to immigrate.",
+      "agency": "USCIS",
+      "agency_full": "U.S. Citizenship and Immigration Services",
+      "authority": null,
+      "destination": "https://www.uscis.gov/i-130",
+      "channels": [
+        "online"
+      ],
+      "cost": "Fees may apply",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.uscis.gov",
+        "operator": "U.S. Citizenship and Immigration Services",
+        "why": "USCIS handles family petitions filed inside the U.S. system.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.uscis.gov/i-130",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "state.visitor-visa",
+      "type": "service",
+      "name": "Apply for a U.S. visitor visa",
+      "aliases": [
+        "visa for my mother to visit",
+        "tourist visa",
+        "visitor visa",
+        "b1 b2 visa",
+        "come visit the united states"
+      ],
+      "plain_summary": "Learn how to ask for a visa to visit the United States.",
+      "agency": "STATE",
+      "agency_full": "U.S. Department of State",
+      "authority": null,
+      "destination": "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html",
+      "channels": [
+        "online"
+      ],
+      "cost": "Fees may apply",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "travel.state.gov",
+        "operator": "U.S. Department of State",
+        "why": "The State Department handles visas through U.S. embassies and consulates.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    }
+  ]
+}

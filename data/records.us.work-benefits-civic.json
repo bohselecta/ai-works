@@ -1,0 +1,559 @@
+{
+  "records": [
+    {
+      "id": "irs.ein-apply",
+      "type": "service",
+      "name": "Get an employer identification number",
+      "aliases": [
+        "get an ein",
+        "business tax id",
+        "employer identification number",
+        "federal tax id business",
+        "ein application"
+      ],
+      "plain_summary": "Get a federal tax number for a business or group.",
+      "agency": "IRS",
+      "agency_full": "Internal Revenue Service",
+      "authority": null,
+      "destination": "https://www.irs.gov/businesses/small-businesses-self-employed/get-an-employer-identification-number",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.irs.gov",
+        "operator": "Internal Revenue Service",
+        "why": "The IRS issues federal employer identification numbers.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.irs.gov/businesses/small-businesses-self-employed/get-an-employer-identification-number",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "irs.form-w9",
+      "type": "service",
+      "name": "Get Form W-9",
+      "aliases": [
+        "where do i get a w9",
+        "w-9 form",
+        "taxpayer id form",
+        "download w9",
+        "vendor tax form"
+      ],
+      "plain_summary": "The IRS provides Form W-9 and its instructions.",
+      "agency": "IRS",
+      "agency_full": "Internal Revenue Service",
+      "authority": null,
+      "destination": "https://www.irs.gov/forms-pubs/about-form-w-9",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.irs.gov",
+        "operator": "Internal Revenue Service",
+        "why": "The IRS publishes the official Form W-9.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.irs.gov/forms-pubs/about-form-w-9",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "dol.unemployment",
+      "type": "handoff",
+      "name": "Apply for unemployment benefits",
+      "aliases": [
+        "file for unemployment",
+        "lost my job",
+        "laid off",
+        "unemployment insurance",
+        "desempleo"
+      ],
+      "plain_summary": "Unemployment insurance is run by states. Labor links to each state program.",
+      "agency": "DOL",
+      "agency_full": "U.S. Department of Labor",
+      "authority": "26 U.S.C. 3304",
+      "administration_level": "state",
+      "subtype": "federal_locator",
+      "federal_frame": "https://www.dol.gov/general/topic/unemployment-insurance?lang=en",
+      "jurisdiction_prompt": "In which state did you work?",
+      "varies_materially": true,
+      "disclosure": {
+        "destination_label": "www.dol.gov",
+        "operator": "U.S. Department of Labor",
+        "why": "The Labor Department links to official state unemployment programs.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.dol.gov/general/topic/unemployment-insurance?lang=en",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 2
+      }
+    },
+    {
+      "id": "usda.snap-state-referral",
+      "type": "handoff",
+      "name": "Find a state SNAP program",
+      "aliases": [
+        "food stamps",
+        "apply for snap",
+        "snap benefits",
+        "food help",
+        "ebt application"
+      ],
+      "plain_summary": "SNAP is run by states. USDA lists each state office and application site.",
+      "agency": "USDA",
+      "agency_full": "U.S. Department of Agriculture",
+      "authority": null,
+      "administration_level": "state",
+      "subtype": "federal_locator",
+      "federal_frame": "https://www.fns.usda.gov/snap/state-directory",
+      "jurisdiction_prompt": "What state or territory do you live in?",
+      "varies_materially": true,
+      "disclosure": {
+        "destination_label": "www.fns.usda.gov",
+        "operator": "U.S. Department of Agriculture",
+        "why": "USDA keeps the official directory of state SNAP agencies.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.fns.usda.gov/snap/state-directory",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "ftc.report-fraud",
+      "type": "service",
+      "name": "Report fraud or a scam",
+      "aliases": [
+        "report a scam",
+        "report fraud",
+        "someone scammed me",
+        "online fraud report",
+        "identity theft scam"
+      ],
+      "plain_summary": "Send a report about a scam or fraud to the FTC.",
+      "agency": "FTC",
+      "agency_full": "Federal Trade Commission",
+      "authority": null,
+      "destination": "https://reportfraud.ftc.gov/",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "reportfraud.ftc.gov",
+        "operator": "Federal Trade Commission",
+        "why": "The FTC operates the federal fraud reporting system.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://reportfraud.ftc.gov/",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "usagov.unclaimed",
+      "type": "service",
+      "name": "Find unclaimed money",
+      "aliases": [
+        "find unclaimed money",
+        "lost money government",
+        "unclaimed property",
+        "old bank account money",
+        "money owed to me"
+      ],
+      "plain_summary": "Find official places to look for money held in your name.",
+      "agency": "USAGOV",
+      "agency_full": "USA.gov",
+      "authority": null,
+      "destination": "https://www.usa.gov/unclaimed-money",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.usa.gov",
+        "operator": "USA.gov",
+        "why": "USA.gov lists official unclaimed money search paths.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.usa.gov/unclaimed-money",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "vote.register-state",
+      "type": "handoff",
+      "name": "Register to vote",
+      "aliases": [
+        "register to vote",
+        "voter registration",
+        "change voter address",
+        "am i registered to vote",
+        "vote registration"
+      ],
+      "plain_summary": "Vote.gov sends people to the official registration process for their state.",
+      "agency": "EAC",
+      "agency_full": "Vote.gov",
+      "authority": null,
+      "administration_level": "state",
+      "subtype": "federal_locator",
+      "federal_frame": "https://vote.gov/",
+      "jurisdiction_prompt": "What state or territory do you live in?",
+      "varies_materially": true,
+      "disclosure": {
+        "destination_label": "vote.gov",
+        "operator": "Vote.gov",
+        "why": "Vote.gov routes people to official state voter registration systems.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://vote.gov/",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "fema.disaster-assistance",
+      "type": "service",
+      "name": "Apply for disaster assistance",
+      "aliases": [
+        "fema help",
+        "disaster assistance",
+        "storm damaged my home",
+        "hurricane aid",
+        "apply for fema"
+      ],
+      "plain_summary": "Use the federal site to ask for help after a disaster.",
+      "agency": "FEMA",
+      "agency_full": "Federal Emergency Management Agency",
+      "authority": null,
+      "destination": "https://www.disasterassistance.gov/",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.disasterassistance.gov",
+        "operator": "Federal Emergency Management Agency",
+        "why": "FEMA operates the federal disaster assistance application site.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.disasterassistance.gov/",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "hhs.marketplace",
+      "type": "service",
+      "name": "Find health insurance through the Marketplace",
+      "aliases": [
+        "health insurance marketplace",
+        "obamacare",
+        "buy health insurance",
+        "healthcare gov",
+        "aca plan"
+      ],
+      "plain_summary": "Shop for health plans on the federal insurance site.",
+      "agency": "CMS",
+      "agency_full": "Centers for Medicare & Medicaid Services",
+      "authority": null,
+      "destination": "https://www.healthcare.gov/",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free to apply",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.healthcare.gov",
+        "operator": "Centers for Medicare & Medicaid Services",
+        "why": "HealthCare.gov is the federal Health Insurance Marketplace.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.healthcare.gov/",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "sba.start-business",
+      "type": "service",
+      "name": "Use the federal small business guide",
+      "aliases": [
+        "start a business",
+        "how to open a business",
+        "small business steps",
+        "business startup guide",
+        "new company help"
+      ],
+      "plain_summary": "See ten basic steps for starting a small business.",
+      "agency": "SBA",
+      "agency_full": "U.S. Small Business Administration",
+      "authority": null,
+      "destination": "https://www.sba.gov/business-guide/10-steps-start-your-business",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.sba.gov",
+        "operator": "U.S. Small Business Administration",
+        "why": "SBA publishes the federal small business guide.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.sba.gov/business-guide/10-steps-start-your-business",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "sba.register-business-state",
+      "type": "handoff",
+      "name": "Register a business with a state",
+      "aliases": [
+        "register my business",
+        "form an llc",
+        "state business registration",
+        "register company",
+        "business license state"
+      ],
+      "plain_summary": "Learn where and how to register a business with a state.",
+      "agency": "SBA",
+      "agency_full": "U.S. Small Business Administration",
+      "authority": null,
+      "administration_level": "state",
+      "subtype": "federal_locator",
+      "federal_frame": "https://www.sba.gov/business-guide/launch-your-business/register-your-business",
+      "jurisdiction_prompt": "In which state or territory will the business be registered?",
+      "varies_materially": true,
+      "disclosure": {
+        "destination_label": "www.sba.gov",
+        "operator": "U.S. Small Business Administration",
+        "why": "SBA explains state and local business registration steps.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.sba.gov/business-guide/launch-your-business/register-your-business",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "usagov.benefit-finder",
+      "type": "service",
+      "name": "Search for government benefits",
+      "aliases": [
+        "what benefits can i get",
+        "government benefits finder",
+        "help from government",
+        "benefits quiz",
+        "find assistance programs"
+      ],
+      "plain_summary": "USA.gov offers a tool that points to federal and state benefit programs.",
+      "agency": "USAGOV",
+      "agency_full": "USA.gov",
+      "authority": null,
+      "destination": "https://www.usa.gov/benefit-finder",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.usa.gov",
+        "operator": "USA.gov",
+        "why": "USA.gov operates the government benefit finder.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.usa.gov/benefit-finder",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    },
+    {
+      "id": "sss.register",
+      "type": "service",
+      "name": "Register with Selective Service",
+      "aliases": [
+        "selective service registration",
+        "register for draft",
+        "sss registration",
+        "i turned 18 register",
+        "check selective service"
+      ],
+      "plain_summary": "Sign up for Selective Service or check your status.",
+      "agency": "SSS",
+      "agency_full": "Selective Service System",
+      "authority": null,
+      "destination": "https://www.sss.gov/register/",
+      "channels": [
+        "online"
+      ],
+      "cost": "Free",
+      "typical_duration": null,
+      "disclosure": {
+        "destination_label": "www.sss.gov",
+        "operator": "Selective Service System",
+        "why": "Selective Service operates the federal registration system.",
+        "official": true,
+        "free": true
+      },
+      "verification": {
+        "review_window_days": 180,
+        "last_human_review": "2026-08-05",
+        "liveness": {
+          "url": "https://www.sss.gov/register/",
+          "expect_status": 200,
+          "allow_redirect_to": []
+        }
+      },
+      "provenance": {
+        "authored_by": "AI WORKS contributors",
+        "authored_at": "2026-08-05",
+        "revision": 1
+      }
+    }
+  ]
+}

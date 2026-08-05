@@ -9,6 +9,6 @@
     "test": "node scripts/test-router.js && node scripts/test-provider.js && python3 portal/lint.py data/records.us.json"
   },
   "engines": {
-    "node": ">=20"
+    "node": "24.x"
   }
 }
